@@ -6,8 +6,8 @@ MAINTAINER Dirk Lüth <info@qoopido.com>
 	ENV DEBIAN_FRONTEND noninteractive
 
 # configure defaults
-	ADD configure.sh /configure.sh
-	ADD config /config
+	COPY ./configure.sh /
+	ADD ./config /config
 	RUN chmod +x /configure.sh \
 		&& chmod 755 /configure.sh
 	RUN /configure.sh \
