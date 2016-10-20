@@ -1,0 +1,1 @@
+This is just a base for other qoopido/* containers ;)
