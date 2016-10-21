@@ -8,6 +8,12 @@ up() {
         echo "    Running startup script /app/config/up.sh"
         chmod +x $UP && chmod 755 $UP && eval $UP;
     fi
+
+    trap down SIGTERM
+
+    while true; do
+		: # Do nothing
+	done
 }
 
 down()
@@ -23,5 +29,4 @@ down()
     exit
 }
 
-trap down SIGTERM
-up
+up &
