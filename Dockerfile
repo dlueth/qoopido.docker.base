@@ -8,17 +8,19 @@ MAINTAINER Dirk Lüth <info@qoopido.com>
 # configure defaults
 	COPY ./configure.sh /
 	ADD ./config /config
-	RUN chmod +x /configure.sh \
-		&& chmod 755 /configure.sh
-	RUN /configure.sh \
-		&& chmod +x /etc/my_init.d/*.sh \
-		&& chmod 755 /etc/my_init.d/*.sh
-	
+
 # install packages
 	RUN apt-get -qy update \
 		&& apt-get -qy upgrade \
     	&& apt-get -qy dist-upgrade \
     	&& apt-get -qy install deborphan
+
+# configure
+	RUN chmod +x /configure.sh \
+		&& chmod 755 /configure.sh
+	RUN /configure.sh \
+		&& chmod +x /etc/my_init.d/*.sh \
+		&& chmod 755 /etc/my_init.d/*.sh
 
 # cleanup
     RUN dpkg -l linux-{image,headers}-* | awk '/^ii/{print $2}' | egrep '[0-9]+\.[0-9]+\.[0-9]+' | awk 'BEGIN{FS="-"}; {if ($3 ~ /[0-9]+/) print $3"-"$4,$0; else if ($4 ~ /[0-9]+/) print $4"-"$5,$0}' | sort -k1,1 --version-sort -r | sed -e "1,/$(uname -r | cut -f1,2 -d"-")/d" | grep -v -e `uname -r | cut -f1,2 -d"-"` | awk '{print $2}' | xargs apt-get -qy purge \
