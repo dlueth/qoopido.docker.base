@@ -14,6 +14,10 @@ MAINTAINER Dirk Lüth <info@qoopido.com>
     	&& chmod +x /etc/my_init.d/*.sh \
     	&& chmod 755 /etc/my_init.d/*.sh
 
+# alter my_init
+	RUN sed -i -e 's/KILL_PROCESS_TIMEOUT = 5/KILL_PROCESS_TIMEOUT = 600/g' /sbin/my_init \
+		&& sed -i -e 's/KILL_ALL_PROCESSES_TIMEOUT = 5/KILL_ALL_PROCESSES_TIMEOUT = 600/g' /sbin/my_init
+
 # install packages
 	RUN apt-get -qy update \
 		&& apt-get -qy upgrade \
